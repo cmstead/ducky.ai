@@ -1,0 +1,155 @@
+.App {
+  width: 40%;
+  margin: 0 auto;
+
+  h1 {
+    text-align: center;
+  }
+
+  .clear {
+    display: block;
+    height: 0px;
+    clear: both;
+    line-height: 0;
+    overflow: hidden;
+  }
+
+  .listening {
+    font-size: 0.9rem;
+    color: #999;
+    display: inline-block;
+    padding: 0.3rem 0 0 0;
+    margin: 0;
+  }
+
+  .clear-log {
+    margin-top: 7px;
+    clear: both;
+    height: 1.6rem;
+
+    button {
+      float: right;
+      background-color: white;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      padding: 3px;
+    }
+  }
+
+  #chat-input {
+    text-align: center;
+    margin-top: 7px;
+
+    textarea {
+      text-align: left;
+      padding: 5px;
+      width: 100%;
+    }
+  }
+
+  .info {
+    font-size: 0.8em;
+  }
+
+  #chat-log {
+    max-height: 50vh;
+    overflow: auto;
+    scrollbar-color: #ccc white;
+    scrollbar-width: thin;
+
+    .chat-msg {
+      clear: both;
+      padding: 3px;
+      margin: 3px;
+      background-color: #fafafb;
+      border-radius: 7px;
+
+      button.delete-option {
+        visibility: hidden;
+        background-color: transparent;
+        border: 0;
+        padding: 0px;
+        margin: 0 0 0 7px;
+        color: #f0d000;
+        font-size: 1.1rem;
+        float: left;
+
+        &:hover {
+          color: #d34300;
+          cursor: pointer;
+        }
+      }
+
+      &:hover {
+        background-color: #f3f3f3;
+
+        button.delete-option {
+          visibility: visible;
+        }
+      }
+
+      &.selected-msg {
+        background-color: #f9f8e9;
+        button.delete-option {
+          visibility: visible;
+          cursor: arrow;
+        }
+      }
+
+      .date {
+        font-size: 0.8em;
+        color: #999;
+        margin: 5px 0;
+        line-height: 1em;
+        width: 15%;
+        float: left;
+        padding: 3px;
+      }
+
+      .message {
+        float: left;
+        width: 77%;
+        padding: 0;
+
+        p {
+          line-height: 1.4em;
+          padding: 0;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .App {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 968px) {
+  .App {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .App {
+    width: 90%;
+
+    .chat-log {
+      .chat-msg {
+        .date {
+          width: 100%;
+          float: none;
+        }
+
+        .message {
+          width: 100%;
+          float: none;
+        }
+
+      }
+    }
+  }
+}
