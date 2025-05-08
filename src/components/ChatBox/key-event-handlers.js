@@ -1,3 +1,5 @@
+import timeout from '../../services/timeout.js';
+
 /** @typedef{import("./ChatBox.js").KeyEvent} KeyEvent */
 /** @typedef{number} TimeoutId */
 
@@ -14,16 +16,16 @@ function updateShiftState(/** @type{string} */ shiftState) {
 }
 
 function getTimeout(updateListeningState) {
-    return setTimeout(() => updateListeningState(true), 1000)
+    return timeout.setTimeout(() => updateListeningState(true), 1000)
 }
 
 export default function getKeyEventHandlers(updateListeningState, appendToChatLog, clearLog) {
     function setListeningTimeout() {
         if (state.timeout) {
-            clearTimeout(state.timeout);
+            timeout.clearTimeout(state.timeout);
         }
 
-        const newTimeout = getTimeout(updateListeningState).toString();
+        const newTimeout = getTimeout(updateListeningState)?.toString();
         state.timeout = parseInt(newTimeout, 10);
 
         updateListeningState(false);

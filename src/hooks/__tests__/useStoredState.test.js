@@ -1,4 +1,4 @@
-import useStoredState from "../useStoredState";
+import useStoredState from "../useStoredState.js";
 import localstorage from "../../services/localstorage.js";
 import { useState } from "react";
 
