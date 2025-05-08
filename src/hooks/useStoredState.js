@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import localstorage from './services/localstorage.js';
+import localstorage from '../services/localstorage.js';
 
 /** @typedef{object|[]} State */
 /** @typedef{[?State, (state: State) => void]} StoredStateResult */
@@ -40,7 +40,7 @@ function parseStoredState(storedState) {
       return null;
     }
   }
-  
+
   return storedState;
 }
 

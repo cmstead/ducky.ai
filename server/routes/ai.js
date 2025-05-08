@@ -1,13 +1,20 @@
-// add chatGPT client setup
+import dotenv from 'dotenv';
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
+dotenv.config();
+
+const openai = new OpenAI();
 
 export default function aiRoutes(app) {
     app.post('/api/ai', async (req, res) => {
         const { prompt } = req.body;
+
+        const promptInputs = prompt.map((item) => {
+            return {
+                role: item.source,
+                content: item.message,
+            }
+        });
 
         if (!prompt) {
             return res.status(400).json({ error: 'Prompt is required' });
@@ -26,7 +33,7 @@ export default function aiRoutes(app) {
                     'When explaining a technical implementation, provide step-by-step instructions.',
                     'Tone should be friendly and professional.',
                 ].join(' '),
-                input: prompt,
+                input: promptInputs,
             });
 
             res.json({ response });

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import getKeyEventHandlers from "./key-event-handlers.js";
+import { getAIResponse } from "../../services/ai-service.js";
 
 /** @typedef{import("../../hooks/useStoredState.js")} State */
 /** @typedef{import("../../hooks/useStoredState.js")} StoredStateTuple */
@@ -9,14 +10,40 @@ export default function ChatBox({ chatLog, clearLog, updateChatLog, inputBoxRef,
     const [showListening, updateListeningState] = useState(false);
 
     const appendToChatLog = (/** @type{KeyEvent} */ event) => {
-        if (event.target.value.trim() !== '') {
-            updateChatLog([
-                ...chatLog,
-                {
-                    message: event.target.value.trim(),
-                    date: new Date().toLocaleTimeString()
-                }
-            ]);
+        const message = event.target.value.trim();
+
+        const messageRecord = {
+            source: 'user',
+            message: message,
+            date: new Date().toLocaleTimeString()
+        }
+
+        const updatedChatLog = [...chatLog, messageRecord];
+
+        if (message !== '') {
+            updateChatLog(updatedChatLog);
+
+            if (/^.+\?.*$/.test(message)) {
+                const messageCount = 5;
+                updateListeningState(true);
+
+                getAIResponse(updatedChatLog.slice(updateChatLog.length - (1 + messageCount)))
+                    .then((response) => {
+                        const responseRecord = {
+                            source: 'assistant',
+                            message: response.response.output_text,
+                            date: new Date().toLocaleTimeString()
+                        }
+
+                        const updatedChatLogWithResponse = [...updatedChatLog, responseRecord];
+                        updateChatLog(updatedChatLogWithResponse);
+                        updateListeningState(true);
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching AI response:', error);
+                        updateListeningState(true);
+                    });
+            }
         }
 
         if (inputBoxRef && inputBoxRef.current) {

@@ -1,8 +1,8 @@
 import useStoredState from "../useStoredState";
-import localstorage from "../services/localstorage.js";
+import localstorage from "../../services/localstorage.js";
 import { useState } from "react";
 
-jest.mock('../services/localstorage', () => ({
+jest.mock('../../services/localstorage', () => ({
     getItem: jest.fn(),
     setItem: jest.fn(),
 }));
