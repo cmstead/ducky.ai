@@ -31,6 +31,7 @@ export default function ChatNode({ message: msg, index, deleteChatNode, setChatN
         <div key={index} title={msg.selected ? "" : "Right click/command click to pin"} className={`chat-msg ${msg.selected ? 'selected-msg' : ''}`} onContextMenu={(e) => pinNode(e, true)}>
             <div className="date">{msg.date}</div>
             <div className="message">
+                <div className="user">{msg.source === 'user' ? 'You' : 'Assistant'}:</div>
                 <Markdown>{msg.message}</Markdown>
             </div>
             <div>

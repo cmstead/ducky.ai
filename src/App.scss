@@ -111,6 +111,16 @@
         width: 77%;
         padding: 0;
 
+        div.user {
+          font-size: 0.9em;
+          color: #333;
+          background-color: #ececec;
+          border-radius: 7px;
+          margin: 0 0 5px 0;
+          padding: 5px;
+          font-weight: bold;
+        }
+
         p {
           line-height: 1.4em;
           padding: 0;
