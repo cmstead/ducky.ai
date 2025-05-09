@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import getKeyEventHandlers from "./key-event-handlers.js";
-import { getAIResponse } from "../../services/ai-service.js";
+import getChatService, { getChatMessageContext, buildMessageRecord } from "../../services/ai-chat-service.js";
 
 /** @typedef{import("../../hooks/useStoredState.js")} State */
 /** @typedef{import("../../hooks/useStoredState.js")} StoredStateTuple */
@@ -12,37 +12,19 @@ export default function ChatBox({ chatLog, clearLog, updateChatLog, inputBoxRef,
     const appendToChatLog = (/** @type{KeyEvent} */ event) => {
         const message = event.target.value.trim();
 
-        const messageRecord = {
-            source: 'user',
-            message: message,
-            date: new Date().toLocaleTimeString()
-        }
-
-        const updatedChatLog = [...chatLog, messageRecord];
-
         if (message !== '') {
+            const updatedChatLog = [...chatLog, buildMessageRecord(message, 'user')];
             updateChatLog(updatedChatLog);
 
             if (/^.+\?.*$/.test(message)) {
-                const messageCount = 5;
                 updateListeningState(true);
 
-                getAIResponse(updatedChatLog.slice(updateChatLog.length - (1 + messageCount)))
-                    .then((response) => {
-                        const responseRecord = {
-                            source: 'assistant',
-                            message: response.response.output_text,
-                            date: new Date().toLocaleTimeString()
-                        }
+                const chatContext = getChatMessageContext(updatedChatLog);
 
-                        const updatedChatLogWithResponse = [...updatedChatLog, responseRecord];
-                        updateChatLog(updatedChatLogWithResponse);
-                        updateListeningState(true);
-                    })
-                    .catch((error) => {
-                        console.error('Error fetching AI response:', error);
-                        updateListeningState(true);
-                    });
+                const storeAiResponse = (responseRecord) =>
+                    updateChatLog([...updatedChatLog, responseRecord]);
+
+                getChatService(storeAiResponse).sendChat(chatContext);
             }
         }
 
