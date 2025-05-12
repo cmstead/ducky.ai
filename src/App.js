@@ -8,8 +8,6 @@ import useChatState from "./hooks/useChatState.js";
 import useKeyPressEffect from "./hooks/useKeyPressEffect.js";
 import useSetChatFocus from "./hooks/useSetChatFocus.js";
 
-/** @typedef {import('./hooks/useSetChatFocus.js').Ref} Ref */
-
 function App() {
   const inputBoxRef = useRef(null);
   const [chatLog, chatManagementApi] = useChatState();
