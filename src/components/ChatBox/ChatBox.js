@@ -6,7 +6,7 @@ import getChatService, { getChatMessageContext, buildMessageRecord } from "../..
 /** @typedef{import("../../hooks/useStoredState.js")} StoredStateTuple */
 /** @typedef{{key: string; target: {value: string; name: string;}}} KeyEvent */
 
-export default function ChatBox({ chatLog, clearLog, updateChatLog, inputBoxRef, undo }) {
+export default function ChatBox({ chatLog, clearLog, updateChatLog, inputBoxRef }) {
     const [showListening, updateListeningState] = useState(false);
 
     const appendToChatLog = (/** @type{KeyEvent} */ event) => {
